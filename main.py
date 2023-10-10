@@ -15,6 +15,9 @@ import base64
 # allows to send post requests
 from requests import post
 
+# import json module
+import json
+
 # call the function and load the environment variables
 # make sure .env file is in the same directory as this python file
 load_dotenv()
@@ -45,9 +48,9 @@ def get_token():
     # encode with a base 64 encoding
     auth_bytes = auth_string.encode("utf-8")
     
-    # base64.b64encode(auth_base64) returns a base64 object
+    # base64.b64encode(auth_bytes) returns a base64 object
     # convert to string to pass with headers to send request to accounts service API
-    auth_base64 = str(base64.b64encode(auth_base64), "utf-8")
+    auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
     
     # url to send request to
     url = "https://accounts.spotify.com/api/token"
@@ -77,3 +80,8 @@ def get_token():
     # return token
     return token
 
+# call the token and store it in a variable
+token = get_token()
+
+# print the token
+print(token)
