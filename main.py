@@ -118,6 +118,23 @@ def search_for_artist(token, artist_name):
     # otherwise, return the very first result
     return json_result[0]
 
+def get_songs_by_artists(token, artist_id):
+    
+    # /artists/ - looking for a specific artist
+    # {artist_id} - passing in specific artist id
+    # top-tracks - want the top tracks
+        # ?country=US - need to pass in a country to use to rank top tracks
+    url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
+    
+    headers = get_auth_header(token)
+    
+    result = get(url, headers=headers)
+    
+    # parse into json
+    json_result = json.loads(result.content)["tracks"]
+    
+    return json_result
+
 # call the token and store it in a variable
 token = get_token()
 
@@ -127,13 +144,21 @@ token = get_token()
 # search for artist then put into result variable
     # if gives {'error': {'status': 404, 'message': 'Service not found'}}
     # then forgot a "?" when making query variable in search_for_artist
-result = search_for_artist(token, "ACDC")
+result = search_for_artist(token, "Lizst")
 
 # print result
 # print(result)
     # this will print everything
 
 # print just the name
-print(result["name"])
+# print(result["name"])
     # prints out "AC/DC" (without the quotations)
 
+# get the ID of the artist
+# can look for songs of this artist
+artist_id = result["id"]
+
+songs = get_songs_by_artists(token, artist_id)
+
+for idx, song in enumerate(songs):
+    print(f"{idx + 1}. {song['name']}")
