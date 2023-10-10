@@ -12,8 +12,8 @@ import os
 # a built in module to use for encoding
 import base64
 
-# allows to send post requests
-from requests import post
+# allows to send post requests (and to get)
+from requests import post, get
 
 # import json module
 import json
@@ -80,8 +80,60 @@ def get_token():
     # return token
     return token
 
+# function to instruct header whenever sending a request
+# use this whenever making a request
+def get_auth_header(token):
+    return {"Authorization": "Bearer " + token}
+
+# function to search for an artist
+def search_for_artist(token, artist_name):
+    
+    # taken from spotify web api documentation
+    url = "https://api.spotify.com/v1/search"
+    
+    headers = get_auth_header(token)
+    
+    # construct a query for the search api endpoint 
+        # type - list of things looking for
+            # can do "artist,track"
+        # limit = 1 - gives the first person that pops up
+    query = f"?q={artist_name}&type=artist&limit=1"
+    
+    # combine together
+    query_url = url + query
+    
+    result = get(query_url, headers=headers)
+    
+    # parse
+    # ["artists"]["items"] - what we want
+    json_result = json.loads(result.content)["artists"]["items"]
+    
+    #print(json_result)
+    
+    # if length of json_result = 0
+    if len(json_result) == 0:
+        print("No artist with this name exists")
+        return None
+    
+    # otherwise, return the very first result
+    return json_result[0]
+
 # call the token and store it in a variable
 token = get_token()
 
 # print the token
-print(token)
+# print(token)
+
+# search for artist then put into result variable
+    # if gives {'error': {'status': 404, 'message': 'Service not found'}}
+    # then forgot a "?" when making query variable in search_for_artist
+result = search_for_artist(token, "ACDC")
+
+# print result
+# print(result)
+    # this will print everything
+
+# print just the name
+print(result["name"])
+    # prints out "AC/DC" (without the quotations)
+
