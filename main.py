@@ -147,11 +147,12 @@ token = get_token()
 result = search_for_artist(token, "Lizst")
 
 # print result
-# print(result)
+#print(result)
     # this will print everything
+    #*****use this to look at possible filters (i think i saw one about genres)*****
 
 # print just the name
-# print(result["name"])
+#print(result["name"])
     # prints out "AC/DC" (without the quotations)
 
 # get the ID of the artist
@@ -160,5 +161,6 @@ artist_id = result["id"]
 
 songs = get_songs_by_artists(token, artist_id)
 
+# idx is what "i, j, and k" are in loops in other languages; idx =~ index
 for idx, song in enumerate(songs):
     print(f"{idx + 1}. {song['name']}")
