@@ -144,7 +144,7 @@ token = get_token()
 # search for artist then put into result variable
     # if gives {'error': {'status': 404, 'message': 'Service not found'}}
     # then forgot a "?" when making query variable in search_for_artist
-result = search_for_artist(token, "Lizst")
+result = search_for_artist(token, "Crystal Castles")
 
 # print result
 #print(result)
@@ -152,7 +152,7 @@ result = search_for_artist(token, "Lizst")
     #*****use this to look at possible filters (i think i saw one about genres)*****
 
 # print just the name
-#print(result["name"])
+#print(result["genres"])
     # prints out "AC/DC" (without the quotations)
 
 # get the ID of the artist
@@ -163,4 +163,6 @@ songs = get_songs_by_artists(token, artist_id)
 
 # idx is what "i, j, and k" are in loops in other languages; idx =~ index
 for idx, song in enumerate(songs):
-    print(f"{idx + 1}. {song['name']}")
+   print(f"{idx + 1}. {song}")
+
+#THIS IS A TEST MATTY PATTY
