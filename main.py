@@ -88,4 +88,11 @@ song_loudness = track_analysis["track"]["loudness"]     # how loud the song is; 
 song_key = get_key(track_analysis["track"]["key"])
 
 print(song_key)
-print(get_artist_genres(token, artist_id))
+# print(get_artist_genres(token, artist_id))
+
+artist_seeds = [];
+artist_seeds.append(artist_id)
+
+recs = get_recommendations_by_artists(token, artist_seeds, 5)
+for i in range(5):
+    print(f"{i + 1}. {recs[i]['name']} by {recs[i]['artists'][0]['name']}")

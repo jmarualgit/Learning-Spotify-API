@@ -35,6 +35,25 @@ def analyze_track(token, track_id):
     
     return json_result
 
+# generates recommendations from up to 5 artists
+# 1 <= track_limit <= 100
+def get_recommendations_by_artists(token, artist_ids, track_limit):
+    url = f"https://api.spotify.com/v1/recommendations?limit={track_limit}&seed_artists="
+
+    # append ids to artist seed
+    for idx, id in enumerate(artist_ids):
+        if idx != 0:
+            url += "%2C"
+        url += id
+
+    print(url)
+    headers = get_auth_header(token)
+    result = get(url, headers = headers)
+    json_result = json.loads(result.content)["tracks"]
+
+    return json_result
+
+
 def get_key(numberOfKey):
     
     # match is similar to "switch" in java
@@ -65,3 +84,4 @@ def get_key(numberOfKey):
             return "A#/Bb"
         case 11:
             return "B"
+        
