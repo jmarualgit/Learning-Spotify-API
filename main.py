@@ -6,11 +6,11 @@
 
 # import modules
 from auth import get_token
-from artist import search_for_artist
-from songs import get_songs_by_artists, analyze_track, get_key
+from artist import *
+from songs import *
 
 # allows to send get requests
-from requests import getg
+from requests import get
 
 # call the token and store it in a variable
 token = get_token()
@@ -88,3 +88,4 @@ song_loudness = track_analysis["track"]["loudness"]     # how loud the song is; 
 song_key = get_key(track_analysis["track"]["key"])
 
 print(song_key)
+print(get_artist_genres(token, artist_id))

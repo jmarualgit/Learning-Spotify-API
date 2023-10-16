@@ -1,6 +1,6 @@
 
 # imports
-from auth import get_token, get_auth_header
+from auth import get_auth_header
 from requests import get
 import json
 
@@ -36,3 +36,11 @@ def search_for_artist(token, artist_name):
     
     # otherwise, return the very first result
     return json_result[0]
+
+def get_artist_genres(token, artist_id):
+    url = f"https://api.spotify.com/v1/artists/{artist_id}"
+    headers = get_auth_header(token)
+    result = get(url, headers = headers)
+    json_result = json.loads(result.content)['genres']
+
+    return json_result
