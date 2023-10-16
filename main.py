@@ -155,12 +155,103 @@ result = search_for_artist(token, "Lizst")
 #print(result["name"])
     # prints out "AC/DC" (without the quotations)
 
-# get the ID of the artist
-# can look for songs of this artist
-artist_id = result["id"]
+# various variables that can use
+artist_id = result["id"]                        # get the ID of the artist; can look for songs of this artist
+artist_full_name = result["name"]               # gets the full name of the searched artist (as listed by spotify)
+genres = result["genres"]                       # the genres of the artist
+follower_count = result["followers"]["total"]   # total # of followers
+popularity_percentage = result["popularity"]    # gets the popularity ranking / 100
+
+# tested print statements 
+#print("The artist's offical listed name is " + artist_full_name)
+#print("The genres associated with the artist are ")
+#print(genres)
+#print(artist_full_name + " has " + str(follower_count) + " followers.")
+#print("Out of a 100, " + artist_full_name + " has a popularity ranking of " + str(popularity_percentage) + ".")
 
 songs = get_songs_by_artists(token, artist_id)
 
-# idx is what "i, j, and k" are in loops in other languages; idx =~ index
+#print(songs[0]['name'])    # to look for a particular song
+#print(songs[0]['id'])      # to get the id of a particular track in the top 10
+
+# making an array for song_genres
+song_genres = []
+
+# putting the genres of the top 10 songs in an array
 for idx, song in enumerate(songs):
-    print(f"{idx + 1}. {song['name']}")
+    song_genres.append(song['id'])      # gets the id of every song and adds them into the array
+
+#print(song_genres)          # print the ray
+
+# idx is what "i, j, and k" are in loops in other languages; idx =~ index
+#for idx, song in enumerate(songs):
+    #print(f"{idx + 1}. {song}")            # prints all the info for every song
+    #print(f"{idx + 1}. {song['name']}")     # prints the name of every song
+
+# analyzing a given track
+def analyze_track(token, track_id):
+    
+    url = f"https://api.spotify.com/v1/audio-analysis/{track_id}"
+    
+    headers = get_auth_header(token)
+    
+    result = get(url, headers=headers)
+    
+    
+    json_result = json.loads(result.content)
+    
+    return json_result
+
+track_analysis = analyze_track(token, songs[0]['id'])
+
+# prints the result
+
+# the ["track"] part is taken from spotify documentation: https://developer.spotify.com/documentation/web-api/reference/get-audio-analysis
+    # can replace with "meta", "bars", "beats", "sections", "segments", and "tatums"
+    # these all have their own separate bunch of items to track
+#print(track_analysis["track"])
+
+# printing the song title for reference
+print(songs[0]['name'])
+
+# getting more specific
+# putting it into variables
+song_tempo = track_analysis["track"]["tempo"]           # how fast the song is; measured in bpm
+song_loudness = track_analysis["track"]["loudness"]     # how loud the song is; measured in decibels
+
+def get_key(numberOfKey):
+    
+    # match is similar to "switch" in java
+    match numberOfKey:
+        case -1:
+            print("No key found")
+        case 0:
+            return "C"
+        case 1:
+            return "C#/Db"
+        case 2:
+            return "D"
+        case 3:
+            return "D#/Eb"
+        case 4:
+            return "E"
+        case 5:
+            return "F"
+        case 6:
+            return "F#/Gb"
+        case 7:
+            return "G"
+        case 8:
+            return "G#/Ab"
+        case 9:
+            return "A"
+        case 10:
+            return "A#/Bb"
+        case 11:
+            return "B"
+
+#song_key = track_analysis["track"]["key"]               # "key" gets the key of the track; it's a scale from -1 to 11 where 0 = C, 1 = C#, etc.; -1 = no key detected
+# rewritten using the function
+song_key = get_key(track_analysis["track"]["key"])
+
+print(song_key)
