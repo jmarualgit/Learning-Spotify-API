@@ -10,7 +10,7 @@ from artist import search_for_artist
 from songs import get_songs_by_artists, analyze_track, get_key
 
 # allows to send get requests
-from requests import get
+from requests import getg
 
 # call the token and store it in a variable
 token = get_token()
