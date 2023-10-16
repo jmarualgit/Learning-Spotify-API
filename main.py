@@ -85,6 +85,21 @@ def get_token():
 def get_auth_header(token):
     return {"Authorization": "Bearer " + token}
 
+#function to search for a song
+def search_for_song(token, song_name):
+    url = "https://api.spotify.com/v1/search"
+    headers = get_auth_header(token)
+    query = f"?q={song_name}&type=track&limit=1"
+
+    query_url = url + query
+    result = get(query_url, headers = headers)
+    json_result = json.loads(result.content)["tracks"]["items"]
+    if len(json_result) == 0:
+        print("No song found with that name")
+        return None
+    
+    return json_result[0]
+
 # function to search for an artist
 def search_for_artist(token, artist_name):
     
@@ -135,6 +150,16 @@ def get_songs_by_artists(token, artist_id):
     
     return json_result
 
+
+#
+#
+#
+# Function calls
+#
+#
+
+
+
 # call the token and store it in a variable
 token = get_token()
 
@@ -144,7 +169,7 @@ token = get_token()
 # search for artist then put into result variable
     # if gives {'error': {'status': 404, 'message': 'Service not found'}}
     # then forgot a "?" when making query variable in search_for_artist
-result = search_for_artist(token, "Crystal Castles")
+#result = search_for_artist(token, "Crystal Castles")
 
 # print result
 #print(result)
@@ -157,13 +182,17 @@ result = search_for_artist(token, "Crystal Castles")
 
 # get the ID of the artist
 # can look for songs of this artist
-artist_id = result["id"]
+#artist_id = result["id"]
 
-songs = get_songs_by_artists(token, artist_id)
+#songs = get_songs_by_artists(token, artist_id)
 
 # idx is what "i, j, and k" are in loops in other languages; idx =~ index
-for idx, song in enumerate(songs):
-   print(f"{idx + 1}. {song}")
+#for idx, song in enumerate(songs):
+#   print(f"{idx + 1}. {song}")
 
-
-#TESTING RENAME
+result = search_for_song(token, "Vanished")
+print("Top Track Search Result Metadata" +
+      "\nSong Name: " + result['name'] + 
+      "\nArtist Name: " + result['artists'][0]['name'] + 
+      "\nAlbum Name: " + result['album']['name'] +
+      "\nDuration in ms: " + str(result['duration_ms']))
