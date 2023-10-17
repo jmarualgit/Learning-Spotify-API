@@ -7,7 +7,7 @@
 # import modules
 from auth import get_token
 from artist import *
-from songs import *
+from tracks import *
 
 # allows to send get requests
 from requests import get
