@@ -19,6 +19,6 @@ class Playlist:
     def __str__(self):
         return f"Playlist: {self.name}"
 
-    def create_empty_playlist(token, user_id):
+    def create_playlist(token, user_id):
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
         header = SpotifyClient.get_auth_header(token)

@@ -21,6 +21,9 @@ class Track:
     def __str__(self):
         return f"{self.name} by {self.artist}"
 
+    def create_spotify_uri(self):
+        return f"spotify:track:{self.id}"
+
     def get_songs_by_artists(token, artist_id):
         
         # /artists/ - looking for a specific artist
