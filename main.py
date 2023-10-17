@@ -9,7 +9,9 @@ from artist import Artist
 from track import Track
 
 # call the token and store it in a variable
-token = SpotifyClient.get_token()
+client = SpotifyClient()
+
+token = client.get_token()
 
 # print the token
 # print(token)

@@ -1,6 +1,6 @@
 
 # imports
-from auth import get_auth_header
+from auth import SpotifyClient
 from requests import get
 import json
 
@@ -29,7 +29,7 @@ class Track:
             # ?country=US - need to pass in a country to use to rank top tracks
         url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
         
-        headers = get_auth_header(token)
+        headers = SpotifyClient.get_auth_header(token)
         
         result = get(url, headers=headers)
         
@@ -43,7 +43,7 @@ class Track:
         
         url = f"https://api.spotify.com/v1/audio-analysis/{track_id}"
         
-        headers = get_auth_header(token)
+        headers = SpotifyClient.get_auth_header(token)
         
         result = get(url, headers=headers)
         
@@ -64,7 +64,7 @@ class Track:
             url += id
 
         print(url)
-        headers = get_auth_header(token)
+        headers = SpotifyClient.get_auth_header(token)
         result = get(url, headers = headers)
         json_result = json.loads(result.content)["tracks"]
 

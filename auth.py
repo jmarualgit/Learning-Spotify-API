@@ -21,23 +21,28 @@ from requests import post
 
 class SpotifyClient:
 
-    load_dotenv()
+    def __init__(self):
+        load_dotenv()
+        self.client_id = os.getenv("CLIENT_ID")
+        self.client_secret = os.getenv("CLIENT_SECRET")
+
+    
 
     # load in CLIENT_ID and CLIENT_SECRET
     # .getenv gets the value of an environment variable
-    client_id = os.getenv("CLIENT_ID")
-    client_secret = os.getenv("CLIENT_SECRET")
+    #client_id = os.getenv("CLIENT_ID")
+    #client_secret = os.getenv("CLIENT_SECRET")
 
     # print them out; make sure env variables loaded in
     # print(client_id, client_secret)
 
     # function to get token
-    def get_token():
+    def get_token(self):
         
         # authorization string (encoded w base 64)
         
         # concatenate client_id to client_secret
-        auth_string = client_id + ":" + client_secret
+        auth_string = self.client_id + ":" + self.client_secret
         
         # encode with a base 64 encoding
         auth_bytes = auth_string.encode("utf-8")

@@ -1,6 +1,6 @@
 
 # import modules
-from auth import get_auth_header
+from auth import SpotifyClient
 from requests import get
 import json
 
@@ -21,4 +21,4 @@ class Playlist:
 
     def create_empty_playlist(token, user_id):
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
-        header = get_auth_header(token)
+        header = SpotifyClient.get_auth_header(token)

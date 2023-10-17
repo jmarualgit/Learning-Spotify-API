@@ -1,14 +1,18 @@
 
 # imports
-from auth import get_auth_header
+from auth import SpotifyClient
 from requests import get
 import json
 
 class Artist:
 
     def __init__(self, name, id):
+
         self.name = name
         self.id = id
+
+    def __str__(self):
+        return f"{self.name}"
 
     # function to search for an artist
     def search_for_artist(token, artist_name):
@@ -16,7 +20,7 @@ class Artist:
         # taken from spotify web api documentation
         url = "https://api.spotify.com/v1/search"
         
-        headers = get_auth_header(token)
+        headers = SpotifyClient.get_auth_header(token)
         
         # construct a query for the search api endpoint 
             # type - list of things looking for
@@ -45,7 +49,7 @@ class Artist:
 
     def get_artist_genres(token, artist_id):
         url = f"https://api.spotify.com/v1/artists/{artist_id}"
-        headers = get_auth_header(token)
+        headers = SpotifyClient.get_auth_header(token)
         result = get(url, headers = headers)
         json_result = json.loads(result.content)['genres']
 
