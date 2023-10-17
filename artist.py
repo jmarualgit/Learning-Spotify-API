@@ -6,6 +6,10 @@ import json
 
 class Artist:
 
+    def __init__(self, name, id):
+        self.name = name
+        self.id = id
+
     # function to search for an artist
     def search_for_artist(token, artist_name):
         
