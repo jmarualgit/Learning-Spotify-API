@@ -18,6 +18,9 @@ class Track:
         self.id = id
         self.artist = artist
 
+    def __str__(self):
+        return f"{self.name} by {self.artist}"
+
     def get_songs_by_artists(token, artist_id):
         
         # /artists/ - looking for a specific artist
@@ -98,4 +101,4 @@ class Track:
                 return "A#/Bb"
             case 11:
                 return "B"
-            
+

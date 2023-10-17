@@ -3,17 +3,13 @@
     # to easily load in environment variables
 # pip install requests
 
-
 # import modules
-from auth import get_token
-from artist import *
-from tracks import *
-
-# allows to send get requests
-from requests import get
+from auth import SpotifyClient
+from artist import Artist
+from track import Track
 
 # call the token and store it in a variable
-token = get_token()
+token = SpotifyClient.get_token()
 
 # print the token
 # print(token)
@@ -21,7 +17,7 @@ token = get_token()
 # search for artist then put into result variable
     # if gives {'error': {'status': 404, 'message': 'Service not found'}}
     # then forgot a "?" when making query variable in search_for_artist
-result = search_for_artist(token, "Crystal Castles")
+result = Artist.search_for_artist(token, "Crystal Castles")
 
 # print result
 #print(result)
@@ -46,7 +42,7 @@ popularity_percentage = result["popularity"]    # gets the popularity ranking / 
 #print(artist_full_name + " has " + str(follower_count) + " followers.")
 #print("Out of a 100, " + artist_full_name + " has a popularity ranking of " + str(popularity_percentage) + ".")
 
-songs = get_songs_by_artists(token, artist_id)
+songs = Track.get_songs_by_artists(token, artist_id)
 
 #print(songs[0]['name'])    # to look for a particular song
 #print(songs[0]['id'])      # to get the id of a particular track in the top 10
@@ -65,7 +61,7 @@ for idx, song in enumerate(songs):
     #print(f"{idx + 1}. {song}")            # prints all the info for every song
     #print(f"{idx + 1}. {song['name']}")     # prints the name of every song
 
-track_analysis = analyze_track(token, songs[0]['id'])
+track_analysis = Track.analyze_track(token, songs[0]['id'])
 
 # prints the result
 
@@ -85,7 +81,7 @@ song_loudness = track_analysis["track"]["loudness"]     # how loud the song is; 
 #song_key = track_analysis["track"]["key"]               
 # "key" gets the key of the track; it's a scale from -1 to 11 where 0 = C, 1 = C#, etc.; -1 = no key detected
 # rewritten using the function
-song_key = get_key(track_analysis["track"]["key"])
+song_key = Track.get_key(track_analysis["track"]["key"])
 
 print(song_key)
 # print(get_artist_genres(token, artist_id))
@@ -93,6 +89,6 @@ print(song_key)
 artist_seeds = [];
 artist_seeds.append(artist_id)
 
-recs = get_recommendations_by_artists(token, artist_seeds, 5)
+recs = Track.get_recommendations_by_artists(token, artist_seeds, 5)
 for i in range(5):
     print(f"{i + 1}. {recs[i]['name']} by {recs[i]['artists'][0]['name']}")
