@@ -17,8 +17,11 @@ client = SpotifyClient(token, matts_user_id)
 artist_search = client.search_for_artist("ACDC")
 print(artist_search['name'])
 
+"""
 playlist = client.create_playlist("Test Playlist")
 print(playlist.id)
+"""
+
 
 
 
