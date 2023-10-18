@@ -1,7 +1,6 @@
 
 # import modules
-from auth import SpotifyClient
-from requests import get
+from requests import post
 import json
 
 class Playlist:
@@ -19,6 +18,23 @@ class Playlist:
     def __str__(self):
         return f"Playlist: {self.name}"
 
-    def create_playlist(token, user_id):
+    def create_playlist(self, token, user_id):
+        data = json.dumps({
+            "name": self.name,
+            "description": "Recommended tracks",
+            "public": True
+        })
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}"
+        }
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
-        header = SpotifyClient.get_auth_header(token)
+        result = post(
+            url,
+            data = data,
+            headers = headers
+        )
+        json_result = result.json()
+
+        return result
